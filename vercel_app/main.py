@@ -1,53 +1,29 @@
 """
-Vercel应用主入口 - 完全绕过Django
-技术专家级解决方案
+Django WSGI配置 - 使用Dummy数据库引擎
 """
 
-def application(environ, start_response):
-    """纯Python WSGI应用"""
-    
-    html = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>🚀 部署成功！</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #667eea; 
-            margin: 0; 
-            padding: 40px; 
-            color: white; 
-            text-align: center;
-        }
-        .container { 
-            background: rgba(255,255,255,0.1); 
-            padding: 40px; 
-            border-radius: 20px; 
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        h1 { font-size: 2.5em; margin-bottom: 20px; }
-        .status { background: #4CAF50; padding: 15px; border-radius: 10px; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 部署成功！</h1>
-        <div class="status">✅ 应用已成功部署到Vercel</div>
-        <p>完全绕过Django和数据库，使用纯Python WSGI应用</p>
-    </div>
-</body>
-</html>
-    """
-    
-    status = '200 OK'
-    response_headers = [
-        ('Content-Type', 'text/html; charset=utf-8'),
-        ('Content-Length', str(len(html.encode('utf-8')))),
-    ]
-    
-    start_response(status, response_headers)
-    return [html.encode('utf-8')]
+import os
+import sys
+from pathlib import Path
 
+# 添加项目路径
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR))
+
+# 强制设置环境变量
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings_dummy'
+os.environ['DATABASE_URL'] = 'dummy://localhost:5432/dummy'
+os.environ['DEBUG'] = 'False'
+os.environ['SECRET_KEY'] = 'dummy-key-for-testing-only'
+os.environ['ALLOWED_HOSTS'] = '*'
+
+# 导入Django
+import django
+django.setup()
+
+# 获取Django WSGI应用
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+# 兼容性
 app = application

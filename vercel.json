@@ -8,9 +8,11 @@
   "routes": [
     { "src": "/(.*)", "dest": "vercel_app/main.py" }
   ],
-  "functions": {
-    "vercel_app/main.py": {
-      "runtime": "python3.12"
-    }
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "mysite.settings_dummy",
+    "DATABASE_URL": "dummy://localhost:5432/dummy",
+    "DEBUG": "False",
+    "SECRET_KEY": "dummy-key-for-testing-only",
+    "ALLOWED_HOSTS": "*"
   }
 }
