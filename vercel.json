@@ -1,7 +1,7 @@
 {
   "builds": [
     { 
-      "src": "app.py", 
+      "src": "vercel_app/main.py", 
       "use": "@vercel/python",
       "config": {
         "requirementsTxt": "requirements_minimal.txt"
@@ -9,6 +9,6 @@
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "app.py" }
+    { "src": "/(.*)", "dest": "vercel_app/main.py" }
   ]
 }

@@ -1,12 +1,16 @@
 """
-完全独立的Vercel应用 - 不依赖Django
+Vercel应用主入口 - 完全绕过Django
 技术专家级解决方案
 """
 
 def application(environ, start_response):
     """纯Python WSGI应用"""
     
-    html = """
+    # 获取请求路径
+    path = environ.get('PATH_INFO', '/')
+    
+    if path == '/':
+        html = """
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -98,7 +102,18 @@ def application(environ, start_response):
     </div>
 </body>
 </html>
-    """
+        """
+    else:
+        html = f"""
+<!DOCTYPE html>
+<html>
+<head><title>404 - 页面未找到</title></head>
+<body>
+<h1>404 - 页面未找到</h1>
+<p>请求的路径: {path}</p>
+</body>
+</html>
+        """
     
     status = '200 OK'
     response_headers = [
