@@ -1,6 +1,6 @@
 """
-最小化测试视图 - 完全避免数据库操作
-用于Dummy模式下的基础功能测试
+最小化测试视图 - 纯静态网站模式
+完全避免数据库操作，只返回HTML内容
 """
 
 from django.http import HttpResponse, JsonResponse
@@ -82,19 +82,19 @@ def welcome_page(request):
         </div>
         
         <div class="status info">
-            <strong>📋 当前模式：</strong> Dummy数据库模式（仅测试基础功能）
+            <strong>📋 当前模式：</strong> 纯静态网站模式
             <ul>
                 <li>✅ Django框架正常运行</li>
-                <li>✅ 静态文件服务正常</li>
                 <li>✅ URL路由系统正常</li>
-                <li>✅ 中间件工作正常</li>
-                <li>❌ 数据库功能（预期失败）</li>
+                <li>✅ 视图函数工作正常</li>
+                <li>✅ HTML响应正常</li>
+                <li>✅ 无数据库依赖</li>
             </ul>
         </div>
         
         <div class="status warning">
             <strong>⚠️  重要说明：</strong>
-            <p>当前使用Dummy数据库引擎，所有数据库操作都会失败。这是预期的行为，仅用于验证基础部署功能。</p>
+            <p>当前为纯静态网站模式，所有功能都不依赖数据库，完全独立运行。</p>
         </div>
         
         <div class="next-steps">

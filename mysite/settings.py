@@ -10,15 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
-from pathlib import Path
+# from pathlib import Path  # 不需要
 # 简化配置，不使用decouple
 # try:
 #     from decouple import config
 # except ImportError:
 #     from python_decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Build paths - 禁用（不需要）
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,7 +44,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [],
@@ -52,26 +52,27 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+# WSGI_APPLICATION - 禁用（不需要）
+# WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # Database - 不需要数据库
 DATABASES = {}
 
-# 日志配置 - 简化
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
-}
+# 日志配置 - 禁用（不需要）
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     },
+# }
 
 # 会话配置 - 禁用
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -82,11 +83,11 @@ LOGGING = {
 # AUTH_PASSWORD_VALIDATORS = []
 
 
-# Internationalization - 简化
-LANGUAGE_CODE = 'zh-hans'
-TIME_ZONE = 'Asia/Shanghai'
-USE_I18N = False  # 不需要国际化
-USE_TZ = False    # 不需要时区
+# Internationalization - 禁用（不需要）
+# LANGUAGE_CODE = 'zh-hans'
+# TIME_ZONE = 'Asia/Shanghai'
+# USE_I18N = False  # 不需要国际化
+# USE_TZ = False    # 不需要时区
 
 
 # Static files - 禁用（不需要）
@@ -114,7 +115,7 @@ USE_TZ = False    # 不需要时区
 # LOGIN_URL = '/admin/login/'
 # LOGIN_REDIRECT_URL = '/admin/'
 
-# 安全设置 - 静态网站最小化
-if not DEBUG:
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
+# 安全设置 - 禁用（不需要）
+# if not DEBUG:
+#     SECURE_BROWSER_XSS_FILTER = True
+#     SECURE_CONTENT_TYPE_NOSNIFF = True

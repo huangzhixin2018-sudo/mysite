@@ -1,5 +1,5 @@
 """
-Django WSGI配置 - 使用Dummy数据库引擎
+Django WSGI配置 - 纯静态网站模式
 """
 
 import os
