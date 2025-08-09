@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: mysite-django
+    env: python
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: chmod +x render_start.sh && ./render_start.sh
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: mysite.settings
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        value: django-insecure-change-this-in-production-12345

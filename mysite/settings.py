@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '.onrender.com', 'localhost', '127.0.
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.contenttypes',  # 必需：提供ContentType模型
     'django.contrib.staticfiles',   # 静态文件支持
     'myapp',
     'Pythonfun',
@@ -46,7 +45,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',  # 安全中间件
     'whitenoise.middleware.WhiteNoiseMiddleware',     # 静态文件中间件
     'django.middleware.common.CommonMiddleware',      # 通用中间件
-    'django.middleware.csrf.CsrfViewMiddleware',      # CSRF保护
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -68,13 +66,8 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database - 使用内存数据库避免错误
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
-}
+# Database - 禁用数据库
+DATABASES = {}
 
 # 日志配置 - 禁用（不需要）
 # LOGGING = {
