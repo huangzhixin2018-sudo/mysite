@@ -10,9 +10,8 @@
   ],
   "env": {
     "DJANGO_SETTINGS_MODULE": "mysite.settings",
-    "DATABASE_URL": "dummy://localhost:5432/dummy",
     "DEBUG": "False",
     "SECRET_KEY": "dummy-key-for-testing-only",
-    "ALLOWED_HOSTS": "*"
+    "ALLOWED_HOSTS": ".vercel.app,.now.sh,localhost,127.0.0.1"
   }
 }

@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-try:
-    from decouple import config
-except ImportError:
-    from python_decouple import config
-# dj_database_url 暂时不需要，移除
+# 简化配置，不使用decouple
+# try:
+#     from decouple import config
+# except ImportError:
+#     from python_decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,24 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production-12345')
+SECRET_KEY = 'django-insecure-change-this-in-production-12345'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='.vercel.app,.now.sh,localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1']
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.staticfiles',      # 只保留静态文件支持
-]
+INSTALLED_APPS = []
 
-MIDDLEWARE = [
-    'django.middleware.common.CommonMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-]
+MIDDLEWARE = []
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -50,11 +45,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'APP_DIRS': False,
         'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.static',
-            ],
+            'context_processors': [],
         },
     },
 ]
@@ -96,30 +89,26 @@ USE_I18N = False  # 不需要国际化
 USE_TZ = False    # 不需要时区
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# Static files - 禁用（不需要）
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# 静态文件查找器 - 禁用（不需要）
+# STATICFILES_FINDERS = []
 
-# 静态文件查找器 - 只保留文件系统查找器
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-]
+# Whitenoise配置 - 禁用（不需要）
+# STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
-# Whitenoise配置 - 使用最兼容的存储后端
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Default primary key field type - 禁用（不需要）
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 禁用数据库相关功能
-DATABASE_ROUTERS = []
+# DATABASE_ROUTERS = []
 
-# 确保静态文件正常工作
-STATICFILES_IGNORE_PATTERNS = []
-STATICFILES_USE_FINDERS = True
+# 确保静态文件正常工作 - 禁用（不需要）
+# STATICFILES_IGNORE_PATTERNS = []
+# STATICFILES_USE_FINDERS = True
 
 # 认证相关配置 - 禁用
 # LOGIN_URL = '/admin/login/'

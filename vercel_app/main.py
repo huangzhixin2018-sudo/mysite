@@ -13,14 +13,12 @@ sys.path.insert(0, str(BASE_DIR))
 # 设置环境变量（允许从vercel.json覆盖）
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
-if 'DATABASE_URL' not in os.environ:
-    os.environ['DATABASE_URL'] = 'dummy://localhost:5432/dummy'
 if 'DEBUG' not in os.environ:
     os.environ['DEBUG'] = 'False'
 if 'SECRET_KEY' not in os.environ:
     os.environ['SECRET_KEY'] = 'dummy-key-for-testing-only'
 if 'ALLOWED_HOSTS' not in os.environ:
-    os.environ['ALLOWED_HOSTS'] = '*'
+    os.environ['ALLOWED_HOSTS'] = '.vercel.app,.now.sh,localhost,127.0.0.1'
 
 # 导入Django
 import django
