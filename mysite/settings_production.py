@@ -3,6 +3,8 @@
 适用于Vercel部署
 """
 
+import os
+
 # 只导入基础设置，不导入数据库配置
 from .settings import (
     BASE_DIR, SECRET_KEY, INSTALLED_APPS, MIDDLEWARE, ROOT_URLCONF, TEMPLATES,
