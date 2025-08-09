@@ -4,5 +4,9 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "mysite/wsgi.py" }
-  ]
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
+    "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres"
+  }
 }

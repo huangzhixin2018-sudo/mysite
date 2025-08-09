@@ -39,21 +39,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # 数据库配置 - 必须使用PostgreSQL
-try:
-    import dj_database_url
-    from decouple import config
-    
-    DATABASE_URL = config('DATABASE_URL')
-    if not DATABASE_URL:
-        raise ValueError("生产环境必须设置DATABASE_URL环境变量")
+import dj_database_url
 
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-    print(f"[OK] 生产环境使用PostgreSQL数据库")
-except Exception as e:
-    print(f"[ERROR] 生产环境数据库配置错误: {e}")
-    raise
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if not DATABASE_URL:
+    raise ValueError("生产环境必须设置DATABASE_URL环境变量")
+
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL)
+}
+print(f"[OK] 生产环境使用PostgreSQL数据库: {DATABASE_URL[:50]}...")
 
 # 日志配置
 LOGGING = {
