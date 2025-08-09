@@ -3,7 +3,11 @@
   "builds": [
     {
       "src": "mysite/wsgi.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.10"
+      }
     }
   ],
   "routes": [
@@ -16,5 +20,5 @@
     "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
     "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres"
   },
-  "buildCommand": "pip install -r requirements.txt && pip list"
+  "buildCommand": "pip install --upgrade pip setuptools wheel && pip install -r requirements.txt"
 }
