@@ -33,13 +33,25 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.staticfiles',
+    'django.contrib.admin',            # 后台管理
+    'django.contrib.auth',             # 认证系统，登录相关
+    'django.contrib.contenttypes',     # 内容类型系统，必须有
+    'django.contrib.sessions',         # 会话支持
+    'django.contrib.messages',         # 消息框架
+    'django.contrib.staticfiles',      # 静态文件支持
+    # 你自己的app...
+    'myapp',                          # 你的主要应用
+    'Pythonfun',                      # Python学习应用
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',  # 会话中间件
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',            # CSRF保护
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # 认证中间件
+    'django.contrib.messages.middleware.MessageMiddleware',     # 消息中间件
 ]
 
 ROOT_URLCONF = 'mysite.urls'
