@@ -14,9 +14,22 @@ if ! vercel whoami &> /dev/null; then
     vercel login
 fi
 
+# 检查Python环境
+echo "🐍 检查Python环境..."
+python --version
+
+# 检查Django项目
+echo "🔍 检查Django项目..."
+python manage.py check
+
+# 收集静态文件
+echo "📁 收集静态文件..."
+python manage.py collectstatic --noinput
+
 # 部署项目
 echo "📦 正在部署项目..."
 vercel --prod
 
 echo "✅ 部署完成！"
 echo "🌐 您的应用已部署到Vercel"
+echo "📝 如果遇到问题，请检查Vercel Dashboard的部署日志"

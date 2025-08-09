@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'mysite.wsgi.app'
 
 
 # Database
@@ -128,3 +128,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 认证相关配置
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/category-management/'
+
+# 静态文件配置 - Vercel部署
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Vercel部署配置
+ALLOWED_HOSTS = ['*', '.vercel.app', '.now.sh']
+
+# 安全设置 - 生产环境
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True

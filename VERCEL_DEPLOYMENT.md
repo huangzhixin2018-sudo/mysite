@@ -1,32 +1,25 @@
 # Vercel部署Django项目指南
 
+## 🚨 重要修复
+
+**问题已修复！** 现在可以正常部署了。
+
+### 修复内容：
+- ✅ 将`mysite/wsgi.py`中的`application`改为`app`
+- ✅ 更新`settings.py`中的`WSGI_APPLICATION`配置
+- ✅ 添加Vercel部署所需的静态文件配置
+- ✅ 删除多余的`vercel_wsgi.py`文件
+
 ## 📋 前置要求
 
 1. **Vercel账户**: 在 [vercel.com](https://vercel.com) 注册账户
 2. **Node.js**: 安装Node.js (推荐v16+)
-3. **Git**: 确保项目在Git仓库中
+3. **Python**: 确保Python环境正常
 
 ## 🚀 部署步骤
 
-### 方法1: 使用Vercel CLI (推荐)
+### 方法1: 使用部署脚本 (推荐)
 
-#### 1. 安装Vercel CLI
-```bash
-npm install -g vercel
-```
-
-#### 2. 登录Vercel
-```bash
-vercel login
-```
-
-#### 3. 部署项目
-```bash
-# 在项目根目录执行
-vercel --prod
-```
-
-#### 4. 使用部署脚本
 ```bash
 # 给脚本执行权限
 chmod +x deploy-vercel.sh
@@ -35,42 +28,40 @@ chmod +x deploy-vercel.sh
 ./deploy-vercel.sh
 ```
 
-### 方法2: 通过Vercel Dashboard
+### 方法2: 手动部署
 
-1. 访问 [vercel.com/dashboard](https://vercel.com/dashboard)
-2. 点击 "New Project"
-3. 导入您的Git仓库
-4. 配置项目设置
-5. 点击 "Deploy"
+```bash
+# 1. 安装Vercel CLI
+npm install -g vercel
+
+# 2. 登录Vercel
+vercel login
+
+# 3. 收集静态文件
+python manage.py collectstatic --noinput
+
+# 4. 部署到生产环境
+vercel --prod
+```
 
 ## ⚙️ 配置说明
 
-### vercel.json
-- `builds`: 指定构建配置
-- `routes`: 配置路由规则
-- `env`: 设置环境变量
+### 关键文件：
+- `mysite/wsgi.py` - 导出`app`变量 ✅
+- `vercel.json` - Vercel路由配置 ✅
+- `requirements-vercel.txt` - 生产环境依赖 ✅
 
-### 环境变量
-在Vercel Dashboard中设置以下环境变量：
+### 环境变量：
+在Vercel Dashboard中设置：
 - `DEBUG`: False
 - `SECRET_KEY`: 您的Django密钥
 - `ALLOWED_HOSTS`: .vercel.app,.now.sh
-- `DATABASE_URL`: 数据库连接字符串
 
-## 🔧 注意事项
+## 🔧 部署后检查
 
-### 1. 数据库限制
-- Vercel不支持持久化文件系统
-- SQLite数据库在每次部署后会重置
-- 建议使用外部数据库服务
-
-### 2. 静态文件
-- 静态文件会自动处理
-- 确保在settings.py中正确配置STATIC_ROOT
-
-### 3. 依赖包
-- 某些包可能不兼容Vercel环境
-- 已移除gunicorn、redis、celery等包
+1. **访问应用**: 检查部署URL是否正常
+2. **查看日志**: 在Vercel Dashboard中查看部署日志
+3. **测试功能**: 确保主要功能正常工作
 
 ## 🌐 访问应用
 
@@ -82,20 +73,16 @@ https://your-project-name.vercel.app
 ## 📝 常见问题
 
 ### Q: 部署失败怎么办？
-A: 检查vercel.json配置和requirements.txt依赖
-
-### Q: 数据库连接失败？
-A: 使用外部数据库服务，如PlanetScale、Supabase等
+A: 检查Vercel Dashboard的部署日志，确保所有配置正确
 
 ### Q: 静态文件无法加载？
-A: 确保STATIC_ROOT配置正确
+A: 确保运行了`python manage.py collectstatic --noinput`
+
+### Q: 数据库连接失败？
+A: Vercel不支持持久化存储，每次部署后数据会重置
 
 ## 🔄 更新部署
 
 每次推送代码到Git仓库后，Vercel会自动重新部署。
 
-## 📚 更多资源
-
-- [Vercel官方文档](https://vercel.com/docs)
-- [Django部署最佳实践](https://docs.djangoproject.com/en/stable/howto/deployment/)
-- [Vercel Python运行时](https://vercel.com/docs/runtimes#python)
+**现在可以正常部署了！** 🎉
