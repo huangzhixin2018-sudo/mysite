@@ -10,12 +10,17 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
-# 强制设置环境变量
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings_dummy'
-os.environ['DATABASE_URL'] = 'dummy://localhost:5432/dummy'
-os.environ['DEBUG'] = 'False'
-os.environ['SECRET_KEY'] = 'dummy-key-for-testing-only'
-os.environ['ALLOWED_HOSTS'] = '*'
+# 设置环境变量（允许从vercel.json覆盖）
+if 'DJANGO_SETTINGS_MODULE' not in os.environ:
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+if 'DATABASE_URL' not in os.environ:
+    os.environ['DATABASE_URL'] = 'dummy://localhost:5432/dummy'
+if 'DEBUG' not in os.environ:
+    os.environ['DEBUG'] = 'False'
+if 'SECRET_KEY' not in os.environ:
+    os.environ['SECRET_KEY'] = 'dummy-key-for-testing-only'
+if 'ALLOWED_HOSTS' not in os.environ:
+    os.environ['ALLOWED_HOSTS'] = '*'
 
 # 导入Django
 import django

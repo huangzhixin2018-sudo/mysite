@@ -9,7 +9,7 @@
     { "src": "/(.*)", "dest": "vercel_app/main.py" }
   ],
   "env": {
-    "DJANGO_SETTINGS_MODULE": "mysite.settings_dummy",
+    "DJANGO_SETTINGS_MODULE": "mysite.settings",
     "DATABASE_URL": "dummy://localhost:5432/dummy",
     "DEBUG": "False",
     "SECRET_KEY": "dummy-key-for-testing-only",

@@ -1,0 +1,3 @@
+warning: in the working copy of 'mysite/settings.py', LF will be replaced by CRLF the next time Git touches it
+mysite/settings.py
+mysite/settings_dummy.py

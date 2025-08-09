@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 # 禁用需要数据库的应用 - 只保留最基础的应用
 INSTALLED_APPS = [
+    'django.contrib.contenttypes',  # 必须！解决ContentType错误
+    'django.contrib.auth',          # 必须！解决auth错误
     'django.contrib.staticfiles',   # 静态文件处理 - 不需要数据库
 ]
 

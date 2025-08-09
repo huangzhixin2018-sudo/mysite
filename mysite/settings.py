@@ -11,8 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
-import dj_database_url  # <-- 移到顶部，方便Vercel检测依赖
+try:
+    from decouple import config
+except ImportError:
+    from python_decouple import config
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='w9t-u5+q#qs7xjt)^fa$r9we^$%cixnv4$^^n#2e5m2!9a0glp')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='.vercel.app,.now.sh,localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -48,8 +54,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',  # 会话中间件
+    'django.middleware.locale.LocaleMiddleware',            # 国际化中间件
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',            # CSRF保护
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # 点击劫持保护
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # 认证中间件
     'django.contrib.messages.middleware.MessageMiddleware',     # 消息中间件
 ]
@@ -67,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
@@ -85,7 +94,7 @@ DATABASES = {
     }
 }
 
-print("[INFO] 使用Dummy数据库 - 仅用于部署测试")
+# [INFO] 使用Dummy数据库 - 仅用于部署测试
 
 
 # Password validation
