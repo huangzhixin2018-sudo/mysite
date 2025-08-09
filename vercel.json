@@ -1,13 +1,8 @@
 {
-  "version": 2,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "mysite/wsgi.py"
-    }
+  "builds": [
+    { "src": "mysite/wsgi.py", "use": "@vercel/python" }
   ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
-    "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres"
-  }
+  "routes": [
+    { "src": "/(.*)", "dest": "mysite/wsgi.py" }
+  ]
 }

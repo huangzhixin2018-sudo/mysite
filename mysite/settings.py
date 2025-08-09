@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,27 +77,11 @@ WSGI_APPLICATION = 'mysite.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# 数据库配置函数 - 避免在模块导入时就执行
-def get_database_config():
-    # 优先使用环境变量中的数据库URL（适用于Vercel部署）
-    DATABASE_URL = config('DATABASE_URL', default=None)
-    
-    if DATABASE_URL:
-        # 使用PostgreSQL数据库（适用于Vercel）
-        return {
-            'default': dj_database_url.parse(DATABASE_URL)
-        }
-    else:
-        # 使用SQLite数据库（适用于本地开发）
-        return {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
-
-# 初始化数据库配置
-DATABASES = get_database_config()
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', 'sqlite:///db.sqlite3')
+    )
+}
 
 
 # Password validation
@@ -133,9 +118,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-# 注释掉不存在的静态文件目录
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Whitenoise配置
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -145,10 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 认证相关配置
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/admin/category-management/'
-
-# 静态文件配置 - Vercel部署
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # 安全设置 - 生产环境
 if not DEBUG:

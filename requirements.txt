@@ -1,29 +1,9 @@
-# Django核心
-Django==4.2.10
-
-# 富文本编辑器
-django-tinymce==3.7.1
-
-# 图像处理 - 使用兼容Python 3.10的版本
-Pillow==10.2.0
-
-# 静态文件处理
-whitenoise==6.6.0
-
-# 环境变量管理
-python-decouple==3.8
-
-# CORS支持
-django-cors-headers==4.3.1
-
-# 文件存储
-django-storages==1.14.2
-
-# PostgreSQL适配器 - 使用二进制版本避免编译问题
-psycopg2-binary==2.9.7
-
-# 数据库URL解析
+Django==5.0.7
+gunicorn==22.0.0
 dj-database-url==2.1.0
-
-# WSGI服务器
-gunicorn==21.2.0
+psycopg2-binary==2.9.9
+whitenoise==6.7.0
+django-tinymce==3.7.1
+python-decouple==3.8
+django-cors-headers==4.3.1
+django-storages==1.14.2
