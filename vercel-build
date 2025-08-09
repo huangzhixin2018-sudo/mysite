@@ -1,0 +1,15 @@
+#!/bin/bash
+# Vercel 构建脚本
+# 显式安装依赖并收集静态文件
+
+echo "开始 Vercel 构建..."
+
+# 安装依赖
+echo "安装 Python 依赖..."
+pip install -r requirements.txt
+
+# 收集静态文件
+echo "收集静态文件..."
+python manage.py collectstatic --noinput
+
+echo "构建完成！"

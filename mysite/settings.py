@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url  # <-- 移到顶部，方便Vercel检测依赖
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,25 +81,13 @@ def get_database_config():
     # 优先使用环境变量中的数据库URL（适用于Vercel部署）
     DATABASE_URL = config('DATABASE_URL', default=None)
     
-    try:
-        if DATABASE_URL:
-            # 使用PostgreSQL数据库（适用于Vercel）
-            import dj_database_url
-            return {
-                'default': dj_database_url.parse(DATABASE_URL)
-            }
-        else:
-            # 使用SQLite数据库（适用于本地开发）
-            return {
-                'default': {
-                    'ENGINE': 'django.db.backends.sqlite3',
-                    'NAME': BASE_DIR / 'db.sqlite3',
-                }
-            }
-    except Exception as e:
-        print(f"[ERROR] 数据库配置错误: {e}")
-        print("[RETRY] 回退到SQLite数据库")
-        # 回退到SQLite
+    if DATABASE_URL:
+        # 使用PostgreSQL数据库（适用于Vercel）
+        return {
+            'default': dj_database_url.parse(DATABASE_URL)
+        }
+    else:
+        # 使用SQLite数据库（适用于本地开发）
         return {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
