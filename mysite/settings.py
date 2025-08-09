@@ -79,19 +79,32 @@ WSGI_APPLICATION = 'mysite.wsgi.app'
 # 优先使用环境变量中的数据库URL（适用于Vercel部署）
 DATABASE_URL = config('DATABASE_URL', default=None)
 
-if DATABASE_URL:
-    # 使用PostgreSQL数据库（适用于Vercel）
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-else:
-    # 使用SQLite数据库（适用于本地开发）
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+try:
+    if DATABASE_URL:
+        # 使用PostgreSQL数据库（适用于Vercel）
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL)
         }
-    }
+        print(f"[OK] 使用PostgreSQL数据库: {DATABASE_URL.split('@')[1] if '@' in DATABASE_URL else '已配置'}")
+    else:
+        # 使用SQLite数据库（适用于本地开发）
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+        print("[OK] 使用SQLite数据库（本地开发）")
+except Exception as e:
+        print(f"[ERROR] 数据库配置错误: {e}")
+        print("[RETRY] 回退到SQLite数据库")
+        # 回退到SQLite
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 
 # Password validation
@@ -145,11 +158,14 @@ LOGIN_REDIRECT_URL = '/admin/category-management/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Vercel部署配置
-ALLOWED_HOSTS = ['*', '.vercel.app', '.now.sh']
-
 # 安全设置 - 生产环境
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True

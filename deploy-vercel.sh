@@ -18,6 +18,14 @@ fi
 echo "🐍 检查Python环境..."
 python --version
 
+# 安装依赖包
+echo "📦 安装依赖包..."
+pip install -r requirements-vercel.txt
+
+# 测试依赖包
+echo "🧪 测试依赖包..."
+python test_dependencies.py
+
 # 检查Django项目
 echo "🔍 检查Django项目..."
 python manage.py check

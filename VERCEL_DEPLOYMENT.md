@@ -39,7 +39,27 @@ Vercel不支持SQLite数据库，因为：
 
 ## 🚀 部署步骤
 
-### 1. 设置PostgreSQL数据库
+### 1. 安装依赖包（重要！）
+
+```bash
+# 给脚本执行权限
+chmod +x install_dependencies.sh
+
+# 运行安装脚本
+./install_dependencies.sh
+
+# 或者手动安装
+pip install -r requirements-vercel.txt
+```
+
+### 2. 测试依赖包
+
+```bash
+# 运行测试脚本
+python test_dependencies.py
+```
+
+### 3. 设置PostgreSQL数据库
 
 ```bash
 # 1. 注册免费PostgreSQL服务（如Neon）
@@ -47,7 +67,7 @@ Vercel不支持SQLite数据库，因为：
 # 3. 在Vercel Dashboard中设置环境变量
 ```
 
-### 2. 使用部署脚本 (推荐)
+### 4. 使用部署脚本 (推荐)
 
 ```bash
 # 给脚本执行权限
