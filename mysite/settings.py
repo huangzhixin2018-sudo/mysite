@@ -33,24 +33,13 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Pythonfun',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -77,30 +66,14 @@ WSGI_APPLICATION = 'mysite.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# 数据库配置 - 生产环境强制使用PostgreSQL
-DATABASE_URL = config('DATABASE_URL', default=None)
-
-if not DATABASE_URL:
-    raise ValueError("生产环境必须设置DATABASE_URL环境变量")
-
-if DATABASE_URL.startswith('postgresql://') or DATABASE_URL.startswith('postgres://'):
-    # PostgreSQL配置
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,  # 连接池最大存活时间（秒）
-            conn_health_checks=True,  # 启用连接健康检查
-        )
+# 数据库配置 - Dummy模式（用于部署测试）
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.dummy',
     }
-    
-    # 通过OPTIONS设置SSL配置
-    DATABASES['default']['OPTIONS'] = {
-        'sslmode': 'require',  # 强制SSL连接
-    }
-    
-    print(f"[OK] 使用PostgreSQL数据库: {DATABASE_URL[:50]}...")
-else:
-    raise ValueError(f"不支持的数据库URL格式: {DATABASE_URL}")
+}
+
+print("[INFO] 使用Dummy数据库 - 仅用于部署测试")
 
 
 # Password validation
