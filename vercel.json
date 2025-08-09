@@ -1,6 +1,12 @@
 {
   "builds": [
-    { "src": "vercel_app.py", "use": "@vercel/python" }
+    { 
+      "src": "vercel_app.py", 
+      "use": "@vercel/python",
+      "config": {
+        "requirementsTxt": "requirements_minimal.txt"
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "vercel_app.py" }

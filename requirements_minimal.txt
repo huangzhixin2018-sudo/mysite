@@ -1,0 +1,2 @@
+# 最小化依赖 - 仅用于Vercel Python运行时
+# 不包含Django或其他复杂依赖
