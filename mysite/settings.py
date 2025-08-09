@@ -75,36 +75,39 @@ WSGI_APPLICATION = 'mysite.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# 优先使用环境变量中的数据库URL（适用于Vercel部署）
-DATABASE_URL = config('DATABASE_URL', default=None)
-
-try:
-    if DATABASE_URL:
-        # 使用PostgreSQL数据库（适用于Vercel）
-        import dj_database_url
-        DATABASES = {
-            'default': dj_database_url.parse(DATABASE_URL)
-        }
-        print(f"[OK] 使用PostgreSQL数据库: {DATABASE_URL.split('@')[1] if '@' in DATABASE_URL else '已配置'}")
-    else:
-        # 使用SQLite数据库（适用于本地开发）
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
+# 数据库配置函数 - 避免在模块导入时就执行
+def get_database_config():
+    # 优先使用环境变量中的数据库URL（适用于Vercel部署）
+    DATABASE_URL = config('DATABASE_URL', default=None)
+    
+    try:
+        if DATABASE_URL:
+            # 使用PostgreSQL数据库（适用于Vercel）
+            import dj_database_url
+            return {
+                'default': dj_database_url.parse(DATABASE_URL)
             }
-        }
-        print("[OK] 使用SQLite数据库（本地开发）")
-except Exception as e:
+        else:
+            # 使用SQLite数据库（适用于本地开发）
+            return {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': BASE_DIR / 'db.sqlite3',
+                }
+            }
+    except Exception as e:
         print(f"[ERROR] 数据库配置错误: {e}")
         print("[RETRY] 回退到SQLite数据库")
         # 回退到SQLite
-        DATABASES = {
+        return {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
+
+# 初始化数据库配置
+DATABASES = get_database_config()
 
 
 # Password validation
