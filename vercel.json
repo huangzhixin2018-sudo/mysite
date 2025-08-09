@@ -26,4 +26,3 @@
   "buildCommand": "pip install -r requirements.txt",
   "installCommand": "pip install -r requirements.txt"
 }
-// 触发Vercel重新部署 - 确保安装所有依赖
