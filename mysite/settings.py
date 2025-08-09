@@ -15,10 +15,7 @@ try:
     from decouple import config
 except ImportError:
     from python_decouple import config
-try:
-    import dj_database_url
-except ImportError:
-    dj_database_url = None
+# dj_database_url 暂时不需要，移除
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='w9t-u5+q#qs7xjt)^fa$r9we^$%cixnv4$^^n#2e5m2!9a0glp')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production-12345')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -39,27 +36,12 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='.vercel.app,.now.sh,localhost,1
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',            # 后台管理
-    'django.contrib.auth',             # 认证系统，登录相关
-    'django.contrib.contenttypes',     # 内容类型系统，必须有
-    'django.contrib.sessions',         # 会话支持
-    'django.contrib.messages',         # 消息框架
-    'django.contrib.staticfiles',      # 静态文件支持
-    # 你自己的app...
-    'myapp',                          # 你的主要应用
-    'Pythonfun',                      # Python学习应用
+    'django.contrib.staticfiles',      # 只保留静态文件支持
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',  # 会话中间件
-    'django.middleware.locale.LocaleMiddleware',            # 国际化中间件
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',            # CSRF保护
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # 点击劫持保护
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # 认证中间件
-    'django.contrib.messages.middleware.MessageMiddleware',     # 消息中间件
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -67,65 +49,51 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 指向 templates 根目录
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.static',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.app'
+WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# Database - 不需要数据库
+DATABASES = {}
 
-# 数据库配置 - Dummy模式（用于部署测试）
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.dummy',
-    }
+# 日志配置 - 简化
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
 }
 
-# [INFO] 使用Dummy数据库 - 仅用于部署测试
+# 会话配置 - 禁用
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# SESSION_COOKIE_AGE = 1209600  # 14天
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+# Password validation - 禁用（不需要认证）
+# AUTH_PASSWORD_VALIDATORS = []
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
+# Internationalization - 简化
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai'
+USE_I18N = False  # 不需要国际化
+USE_TZ = False    # 不需要时区
 
 
 # Static files (CSS, JavaScript, Images)
@@ -135,26 +103,29 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Whitenoise配置
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# 静态文件查找器 - 只保留文件系统查找器
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+]
+
+# Whitenoise配置 - 使用最兼容的存储后端
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 认证相关配置
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/admin/category-management/'
+# 禁用数据库相关功能
+DATABASE_ROUTERS = []
 
-# 安全设置 - 生产环境
+# 确保静态文件正常工作
+STATICFILES_IGNORE_PATTERNS = []
+STATICFILES_USE_FINDERS = True
+
+# 认证相关配置 - 禁用
+# LOGIN_URL = '/admin/login/'
+# LOGIN_REDIRECT_URL = '/admin/'
+
+# 安全设置 - 静态网站最小化
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
