@@ -1,16 +1,11 @@
 {
   "builds": [
     { 
-      "src": "vercel_app/simple_main.py", 
+      "src": "vercel_app/vercel_main.py", 
       "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "vercel_app/simple_main.py" }
-  ],
-  "functions": {
-    "vercel_app/simple_main.py": {
-      "runtime": "python3.9"
-    }
-  }
+    { "src": "/(.*)", "dest": "vercel_app/vercel_main.py" }
+  ]
 }
