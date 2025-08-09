@@ -3,7 +3,12 @@
 适用于Vercel部署
 """
 
-from .settings import *
+# 只导入基础设置，不导入数据库配置
+from .settings import (
+    BASE_DIR, SECRET_KEY, INSTALLED_APPS, MIDDLEWARE, ROOT_URLCONF, TEMPLATES,
+    WSGI_APPLICATION, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE,
+    USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD, LOGIN_URL, LOGIN_REDIRECT_URL
+)
 
 # 生产环境设置
 DEBUG = False
@@ -34,6 +39,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # 数据库配置 - 必须使用PostgreSQL
 try:
     import dj_database_url
+    from decouple import config
+    
     DATABASE_URL = config('DATABASE_URL')
     if not DATABASE_URL:
         raise ValueError("生产环境必须设置DATABASE_URL环境变量")
