@@ -2,13 +2,15 @@
   "builds": [
     { 
       "src": "vercel_app/main.py", 
-      "use": "@vercel/python",
-      "config": {
-        "requirementsTxt": "requirements_minimal.txt"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "vercel_app/main.py" }
-  ]
+  ],
+  "functions": {
+    "vercel_app/main.py": {
+      "runtime": "python3.12"
+    }
+  }
 }
