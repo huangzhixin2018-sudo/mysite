@@ -10,11 +10,10 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
 import os
 from django.core.wsgi import get_wsgi_application
 
-# 强制设置生产环境设置
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings_production'
+# 强制设置Dummy模式设置（用于Vercel部署测试）
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings_dummy'
 
-# 确保DATABASE_URL环境变量被设置（如果vercel.json没有正确传递）
-if 'DATABASE_URL' not in os.environ:
-    os.environ['DATABASE_URL'] = 'postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres'
+# 设置Dummy数据库URL
+os.environ['DATABASE_URL'] = 'dummy://localhost:5432/dummy'
 
 app = get_wsgi_application()
