@@ -15,7 +15,9 @@
   "env": {
     "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
     "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres",
-    "DEBUG": "False"
+    "DEBUG": "False",
+    "PYTHON_VERSION": "3.11"
   },
+  "buildCommand": "pip install --upgrade pip && pip install -r requirements.txt && pip list",
   "regions": ["iad1"]
 }

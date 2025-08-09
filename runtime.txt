@@ -1,2 +1,2 @@
-python-3.12
-# 触发Vercel重新部署 - 清理缓存
+python-3.11
+# 使用Python 3.11，在Vercel上更稳定
