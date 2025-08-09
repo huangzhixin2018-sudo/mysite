@@ -1,23 +1,14 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "mysite/wsgi.py",
-      "use": "@vercel/python"
-    }
+    { "src": "mysite/wsgi.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "mysite/wsgi.py"
-    }
+    { "src": "/(.*)", "dest": "mysite/wsgi.py" }
   ],
   "env": {
-    "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
-    "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres",
-    "DEBUG": "False",
-    "PYTHON_VERSION": "3.11"
+    "DJANGO_SETTINGS_MODULE": "mysite.settings_production"
   },
-  "buildCommand": "pip install --upgrade pip && pip install -r requirements.txt && pip list",
-  "regions": ["iad1"]
+  "buildCommand": "pip install -r requirements.txt && pip list",
+  "installCommand": "pip install -r requirements.txt"
 }

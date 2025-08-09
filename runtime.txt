@@ -1,2 +1,2 @@
-python-3.11
-# 使用Python 3.11，在Vercel上更稳定
+python-3.12
+# 使用Python 3.12，与Vercel默认版本保持一致
