@@ -1,8 +1,8 @@
 {
   "builds": [
-    { "src": "mysite/wsgi_minimal.py", "use": "@vercel/python" }
+    { "src": "vercel_app.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "mysite/wsgi_minimal.py" }
+    { "src": "/(.*)", "dest": "vercel_app.py" }
   ]
 }
