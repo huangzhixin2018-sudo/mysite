@@ -1,13 +1,10 @@
-# 升级基础工具
---upgrade pip setuptools wheel
-
 # Django核心
 Django==4.2.10
 
 # 富文本编辑器
 django-tinymce==3.7.1
 
-# 图像处理 - 使用兼容Python 3.12的版本
+# 图像处理 - 使用兼容Python 3.10的版本
 Pillow==10.2.0
 
 # 静态文件处理
