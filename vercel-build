@@ -38,8 +38,16 @@ pip list
 echo "收集静态文件..."
 python manage.py collectstatic --noinput --settings=mysite.settings_production
 
+# 显示静态文件收集结果
+echo "静态文件收集结果："
+ls -la staticfiles/
+
 # 运行数据库迁移
 echo "运行数据库迁移..."
 python manage.py migrate --settings=mysite.settings_production
+
+# 显示构建输出目录
+echo "构建输出目录内容："
+ls -la /vercel/output/ 2>/dev/null || echo "构建输出目录不存在或无法访问"
 
 echo "=== 构建完成 ==="
