@@ -7,6 +7,10 @@ from django.http import HttpResponse, JsonResponse
 
 def welcome_page(request):
     """欢迎页面 - 最简单的HTML响应"""
+    # 处理request为None的情况（Vercel环境）
+    if request is None:
+        request = type('MockRequest', (), {})()
+    
     html = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -44,15 +48,7 @@ def welcome_page(request):
             background: rgba(255,255,255,0.2);
         }
         .success { background: rgba(76, 175, 80, 0.3); }
-        .warning { background: rgba(255, 193, 7, 0.3); }
         .info { background: rgba(33, 150, 243, 0.3); }
-        ul { line-height: 2; }
-        .next-steps { 
-            background: rgba(255,255,255,0.2); 
-            padding: 25px; 
-            border-radius: 10px; 
-            margin-top: 30px; 
-        }
         .test-links { 
             display: flex; 
             gap: 20px; 
@@ -92,22 +88,6 @@ def welcome_page(request):
             </ul>
         </div>
         
-        <div class="status warning">
-            <strong>⚠️  重要说明：</strong>
-            <p>当前为纯静态网站模式，所有功能都不依赖数据库，完全独立运行。</p>
-        </div>
-        
-        <div class="next-steps">
-            <strong>🔄 下一步计划：</strong>
-            <ol>
-                <li>解决PostgreSQL连接问题（Supabase配置）</li>
-                <li>切换到真实的PostgreSQL数据库</li>
-                <li>运行数据库迁移</li>
-                <li>创建超级用户和测试数据</li>
-                <li>启用完整的应用功能</li>
-            </ol>
-        </div>
-        
         <div class="test-links">
             <a href="/test/health/">健康检查</a>
             <a href="/test/system/">系统信息</a>
@@ -116,45 +96,58 @@ def welcome_page(request):
     </div>
 </body>
 </html>"""
-    return HttpResponse(html, content_type='text/html')
+    
+    return HttpResponse(html, content_type='text/html; charset=utf-8')
 
 def health_check(request):
     """健康检查接口 - 最简单的JSON响应"""
+    # 处理request为None的情况（Vercel环境）
+    if request is None:
+        request = type('MockRequest', (), {})()
+    
     return JsonResponse({
         'status': 'healthy',
         'message': 'Django项目运行正常',
-        'mode': 'dummy_database',
+        'mode': 'static_website',
         'timestamp': '2024-01-01T00:00:00Z'
     })
 
 def system_info(request):
     """系统信息接口 - 避免使用platform模块"""
+    # 处理request为None的情况（Vercel环境）
+    if request is None:
+        request = type('MockRequest', (), {})()
+    
     return JsonResponse({
         'django_version': '5.0.7',
-        'mode': 'dummy_database',
+        'mode': 'static_website',
         'status': 'running'
     })
 
 def api_test(request):
     """API测试接口 - 最简单的请求处理"""
+    # 处理request为None的情况（Vercel环境）
+    if request is None:
+        request = type('MockRequest', (), {})()
+    
     if request.method == 'GET':
         return JsonResponse({
             'method': 'GET',
             'message': 'GET请求处理正常',
             'status': 'success',
-            'mode': 'dummy_database'
+            'mode': 'static_website'
         })
     elif request.method == 'POST':
         return JsonResponse({
             'method': 'POST',
             'message': 'POST请求处理正常',
             'status': 'success',
-            'mode': 'dummy_database'
+            'mode': 'static_website'
         })
     else:
         return JsonResponse({
             'method': request.method,
             'message': f'{request.method}方法支持',
             'status': 'success',
-            'mode': 'dummy_database'
+            'mode': 'static_website'
         })

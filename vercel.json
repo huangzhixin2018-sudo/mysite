@@ -1,17 +1,16 @@
 {
   "builds": [
     { 
-      "src": "vercel_app/main.py", 
+      "src": "vercel_app/simple_main.py", 
       "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "vercel_app/main.py" }
+    { "src": "/(.*)", "dest": "vercel_app/simple_main.py" }
   ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "mysite.settings",
-    "DEBUG": "False",
-    "SECRET_KEY": "dummy-key-for-testing-only",
-    "ALLOWED_HOSTS": ".vercel.app,.now.sh,localhost,127.0.0.1"
+  "functions": {
+    "vercel_app/simple_main.py": {
+      "runtime": "python3.9"
+    }
   }
 }

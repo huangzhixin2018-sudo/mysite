@@ -10,15 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
-# from pathlib import Path  # 不需要
+from pathlib import Path
 # 简化配置，不使用decouple
 # try:
 #     from decouple import config
 # except ImportError:
 #     from python_decouple import config
 
-# Build paths - 禁用（不需要）
-# BASE_DIR = Path(__file__).resolve().parent.parent
+# Build paths - 必需配置
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,19 +35,30 @@ ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1']
 
 # Application definition
 
-INSTALLED_APPS = []
+INSTALLED_APPS = [
+    'django.contrib.contenttypes',  # 必需：提供ContentType模型
+    'django.contrib.staticfiles',   # 静态文件支持
+    'myapp',
+    'Pythonfun',
+]
 
-MIDDLEWARE = []
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',  # 安全中间件
+    'django.middleware.common.CommonMiddleware',      # 通用中间件
+    'django.middleware.csrf.CsrfViewMiddleware',      # CSRF保护
+]
 
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': False,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [],
+            'context_processors': [
+                'django.template.context_processors.request',
+            ],
         },
     },
 ]
@@ -56,8 +67,13 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database - 不需要数据库
-DATABASES = {}
+# Database - 使用内存数据库避免错误
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+}
 
 # 日志配置 - 禁用（不需要）
 # LOGGING = {
@@ -90,13 +106,16 @@ DATABASES = {}
 # USE_TZ = False    # 不需要时区
 
 
-# Static files - 禁用（不需要）
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# Static files - 启用静态文件支持
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# 静态文件查找器 - 禁用（不需要）
-# STATICFILES_FINDERS = []
+# 静态文件查找器 - 启用
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 # Whitenoise配置 - 禁用（不需要）
 # STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
