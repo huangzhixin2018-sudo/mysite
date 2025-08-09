@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "mysite/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -16,15 +13,9 @@
     }
   ],
   "env": {
-    "PYTHONPATH": ".",
     "DJANGO_SETTINGS_MODULE": "mysite.settings_production",
-    "DEBUG": "False",
-    "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres"
-  },
-  "functions": {
-    "mysite/wsgi.py": {
-      "maxDuration": 30
-    }
+    "DATABASE_URL": "postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres",
+    "DEBUG": "False"
   },
   "regions": ["iad1"]
 }
