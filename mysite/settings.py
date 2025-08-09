@@ -77,11 +77,30 @@ WSGI_APPLICATION = 'mysite.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', 'sqlite:///db.sqlite3')
-    )
-}
+# 数据库配置 - 生产环境强制使用PostgreSQL
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if not DATABASE_URL:
+    raise ValueError("生产环境必须设置DATABASE_URL环境变量")
+
+if DATABASE_URL.startswith('postgresql://') or DATABASE_URL.startswith('postgres://'):
+    # PostgreSQL配置
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,  # 连接池最大存活时间（秒）
+            conn_health_checks=True,  # 启用连接健康检查
+        )
+    }
+    
+    # 通过OPTIONS设置SSL配置
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require',  # 强制SSL连接
+    }
+    
+    print(f"[OK] 使用PostgreSQL数据库: {DATABASE_URL[:50]}...")
+else:
+    raise ValueError(f"不支持的数据库URL格式: {DATABASE_URL}")
 
 
 # Password validation

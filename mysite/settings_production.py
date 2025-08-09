@@ -45,10 +45,29 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:
     raise ValueError("生产环境必须设置DATABASE_URL环境变量")
 
+# 验证数据库URL格式
+if not (DATABASE_URL.startswith('postgresql://') or DATABASE_URL.startswith('postgres://')):
+    raise ValueError("生产环境必须使用PostgreSQL数据库")
+
+# 生产环境PostgreSQL配置
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    'default': dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,  # 连接池最大存活时间
+        conn_health_checks=True,  # 启用连接健康检查
+        options={
+            'connect_timeout': 10,  # 连接超时
+            'application_name': 'mysite_production',  # 应用标识
+            'sslmode': 'require',  # 强制SSL连接
+        }
+    )
 }
+
 print(f"[OK] 生产环境使用PostgreSQL数据库: {DATABASE_URL[:50]}...")
+print(f"[INFO] 数据库引擎: {DATABASES['default']['ENGINE']}")
+print(f"[INFO] 数据库主机: {DATABASES['default']['HOST']}")
+print(f"[INFO] 数据库端口: {DATABASES['default']['PORT']}")
+print(f"[INFO] 数据库名称: {DATABASES['default']['NAME']}")
 
 # 日志配置
 LOGGING = {

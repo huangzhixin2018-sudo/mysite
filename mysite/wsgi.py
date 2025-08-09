@@ -13,4 +13,8 @@ from django.core.wsgi import get_wsgi_application
 # 强制设置生产环境设置
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings_production'
 
+# 确保DATABASE_URL环境变量被设置（如果vercel.json没有正确传递）
+if 'DATABASE_URL' not in os.environ:
+    os.environ['DATABASE_URL'] = 'postgresql://postgres:huangzhixin2025@db.wjuaayjnetykmnyqejhi.supabase.co:5432/postgres'
+
 app = get_wsgi_application()
