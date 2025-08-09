@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-change-this-in-production-12345'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',  # 安全中间件
+    'whitenoise.middleware.WhiteNoiseMiddleware',     # 静态文件中间件
     'django.middleware.common.CommonMiddleware',      # 通用中间件
     'django.middleware.csrf.CsrfViewMiddleware',      # CSRF保护
 ]
@@ -117,8 +118,8 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Whitenoise配置 - 禁用（不需要）
-# STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+# Whitenoise配置 - 启用
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
 # Default primary key field type - 禁用（不需要）
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
