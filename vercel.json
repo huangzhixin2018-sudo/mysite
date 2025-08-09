@@ -1,12 +1,8 @@
 {
   "builds": [
-    { "src": "mysite/wsgi.py", "use": "@vercel/python" }
+    { "src": "mysite/wsgi_minimal.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "mysite/wsgi.py" }
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "mysite.settings_dummy",
-    "DATABASE_URL": "dummy://localhost:5432/dummy"
-  }
+    { "src": "/(.*)", "dest": "mysite/wsgi_minimal.py" }
+  ]
 }
