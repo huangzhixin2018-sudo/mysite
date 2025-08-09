@@ -24,5 +24,6 @@
     }
   },
   "buildCommand": "pip install -r requirements.txt",
-  "installCommand": "pip install -r requirements.txt"
+  "installCommand": "pip install -r requirements.txt",
+  "regions": ["iad1"]
 }
